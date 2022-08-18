@@ -6,7 +6,7 @@ import {
   createUserDocumentFromAuth,
   signInUserWithEmailAndPassword,
 } from "../../utils/firebase/firebase.utils";
-import "./sign-in-form.styles.scss"
+import "./sign-in-form.styles.scss";
 
 const defaultFormFields = {
   email: "",
@@ -30,14 +30,22 @@ const SignInForm = () => {
   };
 
   const handleSubmit = async (evt) => {
-    evt.preventDefault();
+    // evt.preventDefault();
     try {
       const response = await signInUserWithEmailAndPassword(email, password);
       console.log(response);
       resetFormFields();
     } catch (err) {
-      alert(err.message);
-      console.log(err.message);
+      switch (err.code) {
+        case "auth/wrong-password":
+          alert("Incorrect password");
+          break;
+        case "auth/user-not-found":
+          alert("No user associated with this email");
+          break;
+        default:
+          console.log(err.message);
+      }
     }
   };
 
@@ -68,7 +76,7 @@ const SignInForm = () => {
         />
         <div className="buttons-container">
           <Button type="submit">Sign In</Button>
-          <Button onClick={logGoogleUser} buttonType="google">
+          <Button type="button" onClick={logGoogleUser} buttonType="google">
             Google sign in
           </Button>
         </div>
