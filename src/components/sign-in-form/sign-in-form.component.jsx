@@ -26,14 +26,14 @@ const SignInForm = () => {
   };
 
   const logGoogleUser = async (evt) => {
-    evt.preventDefault();
+    // evt.preventDefault();
     const { user } = await signInWithGooglePopup();
     const userDocRef = await createUserDocumentFromAuth(user);
     console.log(userDocRef);
   };
 
   const handleSubmit = async (evt) => {
-    // evt.preventDefault();
+    evt.preventDefault();
     try {
       const { user } = await signInUserWithEmailAndPassword(email, password);
       setCurrentUser(user);
